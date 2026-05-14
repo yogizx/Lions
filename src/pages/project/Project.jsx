@@ -92,14 +92,14 @@ function Project() {
             <div className="overflow-x-auto">
               <table className="w-full min-w-[1300px] border-collapse">
                 <thead>
-                  <tr className="bg-[#081b3a] text-white text-[14px] uppercase">
-                    <th className="px-4 py-5 border border-white/10">NO</th>
-                    <th className="px-4 py-5 border border-white/10">YEAR</th>
+                  <tr className="bg-[#081b3a] text-white text-[14px] uppercase whitespace-nowrap">
+                    <th className="px-4 py-5 border border-white/10 w-[60px]">NO</th>
+                    <th className="px-4 py-5 border border-white/10 w-[100px]">YEAR</th>
                     <th className="px-4 py-5 border border-white/10">CLIENT</th>
                     <th className="px-4 py-5 border border-white/10">LOCATION</th>
-                    <th className="px-4 py-5 border border-white/10">DESCRIPTION OF WORK</th>
-                    <th className="px-4 py-5 border border-white/10">MAN HOURS</th>
-                    <th className="px-4 py-5 border border-white/10">STATUS</th>
+                    <th className="px-4 py-5 border border-white/10 w-[40%] whitespace-normal">DESCRIPTION OF WORK</th>
+                    <th className="px-4 py-5 border border-white/10 w-[120px]">MAN HOURS</th>
+                    <th className="px-4 py-5 border border-white/10 w-[120px]">STATUS</th>
                   </tr>
                 </thead>
 
@@ -109,13 +109,13 @@ function Project() {
                       key={row[0]}
                       className="hover:bg-[#fff7ed] transition duration-200"
                     >
-                      <td className="px-4 py-4 border">{row[0]}</td>
-                      <td className="px-4 py-4 border">{row[1]}</td>
-                      <td className="px-4 py-4 border font-semibold">{row[2]}</td>
-                      <td className="px-4 py-4 border">{row[3]}</td>
+                      <td className="px-4 py-4 border whitespace-nowrap text-center">{row[0]}</td>
+                      <td className="px-4 py-4 border whitespace-nowrap text-center">{row[1]}</td>
+                      <td className="px-4 py-4 border font-semibold min-w-[200px]">{row[2]}</td>
+                      <td className="px-4 py-4 border min-w-[150px]">{row[3]}</td>
                       <td className="px-4 py-4 border">{row[4]}</td>
-                      <td className="px-4 py-4 border text-center">{row[5]}</td>
-                      <td className="px-4 py-4 border text-center font-bold text-green-700">
+                      <td className="px-4 py-4 border text-center whitespace-nowrap">{row[5]}</td>
+                      <td className="px-4 py-4 border text-center font-bold text-green-700 whitespace-nowrap">
                         {row[6]}
                       </td>
                     </tr>
