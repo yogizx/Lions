@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Building2,
@@ -8,6 +8,8 @@ import {
   Wrench,
   Users,
   BriefcaseBusiness,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import bannerOne from "./images/h1.png.jpg";
 import bannerTwo from "./images/h2.png.jpg";
@@ -34,15 +36,8 @@ function Home() {
 
   const [currentBanner, setCurrentBanner] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % banners.length);
-    }, 3500);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const activeBanner = banners[currentBanner];
+  const isFirstBanner = currentBanner === 0;
 
   return (
     <main className="bg-[#f5f7fb] font-['Roboto'] overflow-x-hidden" style={{ fontFamily: "Roboto, sans-serif" }}>
@@ -87,6 +82,18 @@ function Home() {
             </div>
           </div>
         </div>
+
+        <button
+          onClick={() => setCurrentBanner(isFirstBanner ? 1 : 0)}
+          aria-label={isFirstBanner ? "Show second banner" : "Show first banner"}
+          className="absolute right-6 md:right-10 top-1/2 -translate-y-1/2 bg-[#ff7a00] hover:bg-[#ea6f00] duration-300 text-white w-12 h-12 md:w-14 md:h-14 rounded-full flex items-center justify-center shadow-xl"
+        >
+          {isFirstBanner ? (
+            <ChevronRight className="w-7 h-7" />
+          ) : (
+            <ChevronLeft className="w-7 h-7" />
+          )}
+        </button>
       </section>
 
       {/* TRUST METRICS */}

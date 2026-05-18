@@ -6,8 +6,6 @@ import Client5 from "./images/Client5.png";
 import Client6 from "./images/Client6.png";
 import Client7 from "./images/Client7.png";
 import Client8 from "./images/Client8.png";
-import Certificate1 from "./images/Certificate1.png";
-import Certificate2 from "./images/Certificate2.png";
 import Founder from "./images/Founder.png";
 import AboutBanner from "./images/about.png";
 
@@ -210,7 +208,7 @@ function About() {
 
 
       {/* PROCESS */}
-      <section className="py-24 bg-[#f6f8fc]">
+      <section className="py-24 bg-[#081b3a]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -218,11 +216,11 @@ function About() {
                 How We Work
               </p>
 
-              <h2 className="text-[#081b3a] text-[42px] md:text-[48px] font-black leading-tight">
+              <h2 className="text-white text-[42px] md:text-[48px] font-black leading-tight">
                 Simple Process. Strong Results.
               </h2>
 
-              <p className="text-[#5f6b7a] text-[18px] leading-[34px] mt-7">
+              <p className="text-white/80 text-[18px] leading-[34px] mt-7">
                 Every project follows a clear workflow from planning to execution.
                 This helps us control safety, quality, time, and cost with better
                 coordination.
@@ -308,28 +306,47 @@ function About() {
             </p>
 
             <h2 className="text-white text-[42px] md:text-[40px] font-black">
-              Our Certification
+              Certifications & Compliance
             </h2>
-
-            <p className="text-white/90 text-[18px] leading-[32px] mt-5 max-w-[800px] mx-auto">
-              Our certifications reflect our commitment to safety, quality
-              standards, and professional industrial service excellence.
-            </p>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-8">
-            <CertificateCard
-              img={Certificate1}
-              title="CIDB Malaysia Contractor Registration"
-              text="Officially certified and registered under CIDB Malaysia for authorized construction and industrial services."
+          <div className="grid lg:grid-cols-3 gap-8">
+            <CertificationPoint
+              no="01"
+              title="Safety, Quality & Compliance"
+              text={
+                <>
+                  At Lions Global Services, our commitment to{" "}
+                  <strong className="font-bold text-[#081b3a]">safety, quality, and regulatory compliance</strong>{" "}
+                  is reinforced through recognized industry certifications and professionally qualified personnel.
+                </>
+              }
             />
 
-            <CertificateCard
-              img={Certificate2}
-              title="Scaffolding Supervisor Registration Certificate"
-              text="Certified and authorized to supervise scaffolding works in compliance with Malaysia safety regulations. "
+            <CertificationPoint
+              no="02"
+              title="Certified Technical Personnel"
+              text={
+                <>
+                  Our team includes{" "}
+                  <strong className="font-bold text-[#081b3a]">CIDB Malaysia registered construction personnel</strong>{" "}
+                  and certified scaffold inspection professionals trained in{" "}
+                  <strong className="font-bold text-[#081b3a]">basic, intermediate, and advanced inspection standards</strong>.
+                  These credentials reflect our capability to deliver scaffolding and engineering solutions with a strong focus on workplace safety, operational excellence, and industry compliance.
+                </>
+              }
             />
 
+            <CertificationPoint
+              no="03"
+              title="Professional Project Execution"
+              text={
+                <>
+                  By maintaining{" "}
+                  <strong className="font-bold text-[#081b3a]">certified expertise</strong>, we ensure every project is executed with professionalism, reliability, and adherence to established safety standards.
+                </>
+              }
+            />
           </div>
         </div>
       </section>
@@ -339,33 +356,33 @@ function About() {
 
 function ProcessCard({ no, title, text }) {
   return (
-    <div className="bg-white rounded-[26px] p-7 shadow-lg flex gap-6">
+    <div className="bg-white/10 border border-white/15 backdrop-blur-md rounded-[26px] p-7 shadow-lg flex gap-6">
       <span className="w-[58px] h-[58px] bg-[#ff7a00] text-white rounded-2xl flex items-center justify-center font-black text-[22px] shrink-0">
         {no}
       </span>
 
       <div>
-        <h3 className="text-[#081b3a] text-[23px] font-bold">{title}</h3>
-        <p className="text-[#6b7280] mt-2 leading-[28px]">{text}</p>
+        <h3 className="text-white text-[23px] font-bold">{title}</h3>
+        <p className="text-white/75 mt-2 leading-[28px]">{text}</p>
       </div>
     </div>
   );
 }
 
-function CertificateCard({ img, title, text }) {
+function CertificationPoint({ no, title, text }) {
   return (
-    <div className="w-full max-w-[420px] bg-white rounded-[32px] p-6 shadow-2xl">
-      <div className="h-[320px] rounded-[24px] bg-[#f4f7fb] border-2 border-dashed border-[#ff7a00]/40 flex items-center justify-center overflow-hidden">
-        <img
-          src={img}
-          alt={title}
-          className="w-full h-full object-contain p-4"
-        />
-      </div>
+    <div className="bg-white rounded-[32px] p-8 md:p-10 shadow-2xl min-h-[360px] flex flex-col">
+      <span className="w-[64px] h-[64px] bg-[#081b3a] text-white rounded-2xl flex items-center justify-center font-black text-[20px]">
+        {no}
+      </span>
 
-      <h3 className="text-[#081b3a] text-[24px] font-black mt-6">{title}</h3>
+      <h3 className="text-[#081b3a] text-[26px] font-black mt-8 leading-tight">
+        {title}
+      </h3>
 
-      <p className="text-[#6b7280] leading-[28px] mt-3">{text}</p>
+      <p className="text-[#5f6b7a] text-[18px] leading-[34px] mt-5 font-medium">
+        {text}
+      </p>
     </div>
   );
 }

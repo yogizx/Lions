@@ -211,8 +211,8 @@ function ServiceCardDark({ image, icon, title, text }) {
 
 function WhyCard({ icon, title, text }) {
   return (
-    <div className="bg-white/10 backdrop-blur-md rounded-[30px] p-8 border border-white/10">
-      <div className="text-[#ff7a00] w-11 h-11 mb-6">{icon}</div>
+    <div className="group bg-white/10 backdrop-blur-md rounded-[30px] p-8 border border-white/10 transition duration-300 ease-out hover:-translate-y-2 hover:bg-white/15 hover:border-[#ff7a00]/45 hover:shadow-2xl hover:shadow-[#ff7a00]/10">
+      <div className="text-[#ff7a00] w-11 h-11 mb-6 transition duration-300 ease-out group-hover:scale-110 group-hover:text-white">{icon}</div>
 
       <h3 className="text-white text-[24px] font-bold mb-4">{title}</h3>
 

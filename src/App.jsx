@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Header from "./assets/components/Header";
 import Footer from "./assets/components/Footer";
 import MobileOverview from "./assets/components/MobileOverview";
+import ScrollToTop from "./assets/components/ScrollToTop";
 
 import Home from "./pages/Home";
 import About from "./pages/about/About";
@@ -25,6 +26,9 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import { Blogs, BlogDetail } from "./pages/blog/BlogPages";
+import BloggerLogin from "./pages/blogger/BloggerLogin";
+import BloggerDashboard from "./pages/blogger/BloggerDashboard";
+import { isBloggerLoggedIn } from "./pages/blogger/BloggerLogin";
 
 // ── Admin Route Guard ─────────────────────────────────────────
 import { isAdminLoggedIn } from "./pages/admin/AdminLogin";
@@ -32,6 +36,10 @@ import { Navigate } from "react-router-dom";
 
 function ProtectedAdmin({ children }) {
   return isAdminLoggedIn() ? children : <Navigate to="/blog/admin" replace />;
+}
+
+function ProtectedBlogger({ children }) {
+  return isBloggerLoggedIn() ? children : <Navigate to="/lions/bloger" replace />;
 }
 
 // ── Layout wrapper: hide header/footer for admin pages ────────
@@ -42,6 +50,7 @@ function AdminLayout({ children }) {
 function App() {
   return (
     <>
+      <ScrollToTop />
       <Routes>
         {/* ── Admin Routes (no Header/Footer) ── */}
         <Route
@@ -49,6 +58,24 @@ function App() {
           element={
             <AdminLayout>
               <AdminLogin />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/lions/bloger"
+          element={
+            <AdminLayout>
+              <BloggerLogin />
+            </AdminLayout>
+          }
+        />
+        <Route
+          path="/lions/bloger/dashboard"
+          element={
+            <AdminLayout>
+              <ProtectedBlogger>
+                <BloggerDashboard />
+              </ProtectedBlogger>
             </AdminLayout>
           }
         />

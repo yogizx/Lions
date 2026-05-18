@@ -4,15 +4,17 @@ import { Link } from "react-router-dom";
 
 function Footer() {
   const footerLinkClass =
-    "relative inline-block overflow-hidden rounded px-2 py-1 -mx-2 -my-1 transition-colors duration-300 before:absolute before:inset-0 before:-translate-x-full before:bg-[#ff7a00]/20 before:transition-transform before:duration-300 before:ease-out before:content-[''] hover:text-white hover:before:translate-x-0 focus:outline-none focus:text-white focus:before:translate-x-0";
+    "inline-block px-2 py-1 -mx-2 -my-1 hover:text-[#ff7a00] duration-300 focus:outline-none focus:text-[#ff7a00]";
 
   return (
     <footer className="bg-[#061b3a] text-white pt-14 pb-6 mt-20">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-10">
+        
         {/* Company */}
         <div>
           <div className="relative inline-flex items-center justify-center bg-white rounded-[18px] px-5 py-3 mb-6 shadow-2xl border-b-[5px] border-[#ff7a00]">
             <div className="absolute inset-0 rounded-[18px] bg-[#ff7a00]/10 blur-xl"></div>
+
             <img
               src={logo}
               alt="Construction Logo"
@@ -28,7 +30,9 @@ function Footer() {
 
         {/* Quick Links */}
         <div>
-          <h3 className="text-xl font-semibold mb-5 text-[#ff7a00]">Quick Links</h3>
+          <h3 className="text-xl font-semibold mb-5 text-[#ff7a00]">
+            Quick Links
+          </h3>
 
           <ul className="space-y-3 text-gray-300">
             <li>
@@ -36,26 +40,31 @@ function Footer() {
                 Home
               </Link>
             </li>
+
             <li>
               <Link to="/about" className={footerLinkClass}>
                 About
               </Link>
             </li>
+
             <li>
               <Link to="/project" className={footerLinkClass}>
                 Project
               </Link>
             </li>
+
             <li>
               <Link to="/contact" className={footerLinkClass}>
                 Contact
               </Link>
             </li>
+
             <li>
               <Link to="/blogs" className={footerLinkClass}>
                 Blog
               </Link>
             </li>
+
             <li>
               <Link to="/privacy-policy" className={footerLinkClass}>
                 Privacy Policy
@@ -66,26 +75,38 @@ function Footer() {
 
         {/* Services */}
         <div>
-         <h3 className="text-xl font-semibold mb-5 text-[#ff7a00]">
-  Services
-</h3>
+          <h3 className="text-xl font-semibold mb-5 text-[#ff7a00]">
+            Services
+          </h3>
 
           <ul className="space-y-3 text-gray-300">
             <li>
-              <Link to="/services/scaffolding-works" className={footerLinkClass}>
+              <Link
+                to="/services/scaffolding-works"
+                className={footerLinkClass}
+              >
                 Scaffolding Works
               </Link>
             </li>
+
             <li>
-              <Link to="/services/insulation-works" className={footerLinkClass}>
+              <Link
+                to="/services/insulation-works"
+                className={footerLinkClass}
+              >
                 Insulation Works
               </Link>
             </li>
+
             <li>
-              <Link to="/services/safety-net" className={footerLinkClass}>
+              <Link
+                to="/services/safety-net"
+                className={footerLinkClass}
+              >
                 Safety Net
               </Link>
             </li>
+
             <li>
               <Link
                 to="/services/building-construction-works"
@@ -94,6 +115,7 @@ function Footer() {
                 Building Construction Works
               </Link>
             </li>
+
             <li>
               <Link
                 to="/services/supply-of-man-power"
@@ -102,8 +124,12 @@ function Footer() {
                 Supply Of Man Power
               </Link>
             </li>
+
             <li>
-              <Link to="/services/security-supply" className={footerLinkClass}>
+              <Link
+                to="/services/security-supply"
+                className={footerLinkClass}
+              >
                 Security Supply
               </Link>
             </li>
@@ -112,33 +138,75 @@ function Footer() {
 
         {/* Contact */}
         <div>
-          <h3 className="text-xl font-semibold mb-5 text-[#ff7a00]">Contact</h3>
+          <h3 className="text-xl font-semibold mb-5 text-[#ff7a00]">
+            Contact
+          </h3>
 
-          <ul className="space-y-3 text-gray-300">
+          <ul className="space-y-4 text-gray-300">
+            
             <li>
               No.33, Tingkat Satu, Jalan Kelang Lama Square 1, Kelang Lama
               Square, 09000 Kulim, Kedah.
             </li>
+
+            {/* Email 1 */}
             <li className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-[#ff7a00]" />
-              info@lionsglobalservices.com
+
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=info@lionsglobalservices.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#ff7a00] duration-300 break-all"
+              >
+                info@lionsglobalservices.com
+              </a>
             </li>
+
+            {/* Email 2 */}
             <li className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-[#ff7a00]" />
-              lionsglobalservices@gmail.com
+
+              <a
+                href="https://mail.google.com/mail/?view=cm&fs=1&to=lionsglobalservices@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#ff7a00] duration-300 break-all"
+              >
+                lionsglobalservices@gmail.com
+              </a>
             </li>
+
+            {/* Whatsapp */}
             <li className="flex items-center gap-3">
               <MessageCircle className="w-4 h-4 text-[#ff7a00]" />
-              Whatsapp: +60 16-4854506
+
+              <a
+                href="https://wa.me/60164854506"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#ff7a00] duration-300"
+              >
+                Whatsapp: +60 16-4854506
+              </a>
             </li>
+
+            {/* Phone */}
             <li className="flex items-center gap-3">
               <PhoneCall className="w-4 h-4 text-[#ff7a00]" />
-              Landline: +60-45522076
+
+              <a
+                href="tel:+6045522076"
+                className="hover:text-[#ff7a00] duration-300"
+              >
+                Landline: +60-45522076
+              </a>
             </li>
           </ul>
         </div>
       </div>
 
+      {/* Bottom */}
       <div className="border-t border-gray-700 mt-10 pt-5 text-center text-gray-400 text-sm">
         © 2026 Lionsglobalservices.com | All Rights Reserved.
       </div>

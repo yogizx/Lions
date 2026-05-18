@@ -120,6 +120,10 @@ function Project() {
                       </td>
                     </tr>
                   ))}
+                  {/* Empty space inside table after row 46 */}
+                  <tr className="h-20">
+                    <td colSpan="7" className="border-none"></td>
+                  </tr>
                 </tbody>
               </table>
             </div>
