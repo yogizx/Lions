@@ -61,7 +61,7 @@ export function Blogs() {
       {/* Hero */}
       <div className="bg-[#0f172a] text-white py-20 px-4 text-center relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff7a00] rounded-full blur-[100px] opacity-10 -mr-32 -mt-32"></div>
-        <h1 className="text-5xl font-black mb-4 relative z-10 uppercase tracking-tight">Our Insights</h1>
+        <h1 className="text-5xl font-black mb-4 relative z-10 uppercase tracking-tight">Our Blogs</h1>
         <p className="text-gray-400 text-lg max-w-xl mx-auto relative z-10 font-medium">
           Latest news, trends, and expert opinions from the scaffolding industry.
         </p>
@@ -117,6 +117,12 @@ export function BlogDetail() {
   const [blog, setBlog] = useState(null);
   const [allBlogs, setAllBlogs] = useState([]);
   const [notFound, setNotFound] = useState(false);
+  const [ctaData, setCtaData] = useState({
+    heading: "Expert Scaffolding Solutions",
+    subtext: "Providing safety and stability for projects of any scale.",
+    btnText: "Get Free Quote",
+    btnLink: "/contact"
+  });
 
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState({ name: '', text: '' });
@@ -124,6 +130,17 @@ export function BlogDetail() {
   const [captcha, setCaptcha] = useState({ a: Math.floor(Math.random() * 10) + 1, b: Math.floor(Math.random() * 10) + 1 });
   const [captchaInput, setCaptchaInput] = useState('');
   const [commentMsg, setCommentMsg] = useState('');
+
+  // Inject Roboto font once
+  useEffect(() => {
+    if (!document.getElementById('roboto-font-link')) {
+      const link = document.createElement('link');
+      link.id = 'roboto-font-link';
+      link.rel = 'stylesheet';
+      link.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap';
+      document.head.appendChild(link);
+    }
+  }, []);
 
   useEffect(() => {
     async function load() {
@@ -133,6 +150,22 @@ export function BlogDetail() {
       const found = all.find((b) => b.slug === slug);
       if (found) {
         setBlog(found);
+        // Parse structured CTA JSON saved from Admin dashboard
+        if (found.ctaContent) {
+          try {
+            const parsed = JSON.parse(found.ctaContent);
+            if (parsed && parsed.isStructured) {
+              setCtaData({
+                heading: parsed.heading || "Expert Scaffolding Solutions",
+                subtext: parsed.subtext || "Providing safety and stability for projects of any scale.",
+                btnText: parsed.btnText || "Get Free Quote",
+                btnLink: parsed.btnLink || "/contact"
+              });
+            }
+          } catch (e) {
+            // Legacy / non-JSON ctaContent – keep defaults
+          }
+        }
         if (found.allowComments) {
           const c = await getApprovedCommentsForBlog(found.id);
           setComments(c);
@@ -239,8 +272,12 @@ export function BlogDetail() {
               <div 
                 className="prose prose-lg max-w-none text-gray-600 leading-relaxed font-medium
                   [&_p]:mb-6
+                  [&_h1]:text-3xl [&_h1]:font-black [&_h1]:text-[#0f172a] [&_h1]:mt-12 [&_h1]:mb-6
                   [&_h2]:text-2xl [&_h2]:font-black [&_h2]:text-[#0f172a] [&_h2]:mt-12 [&_h2]:mb-6
                   [&_h3]:text-xl [&_h3]:font-black [&_h3]:text-[#0f172a] [&_h3]:mt-10 [&_h3]:mb-4
+                  [&_h4]:text-lg [&_h4]:font-bold [&_h4]:text-[#0f172a] [&_h4]:mt-8 [&_h4]:mb-3
+                  [&_h5]:text-base [&_h5]:font-bold [&_h5]:text-[#0f172a] [&_h5]:mt-6 [&_h5]:mb-2
+                  [&_h6]:text-sm [&_h6]:font-bold [&_h6]:text-[#0f172a] [&_h6]:mt-6 [&_h6]:mb-2
                   [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-8
                   [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-8
                   [&_blockquote]:border-l-4 [&_blockquote]:border-[#ff7a00] [&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:bg-orange-50/30 [&_blockquote]:py-6 [&_blockquote]:my-10 [&_blockquote]:rounded-r-2xl
@@ -268,10 +305,7 @@ export function BlogDetail() {
                 </div>
               )}
 
-              {/* CTA Section */}
-              {blog.ctaContent && blog.ctaContent.trim() !== "" && (
-                <div className="mt-16" dangerouslySetInnerHTML={{ __html: blog.ctaContent }} />
-              )}
+              {/* CTA is rendered in the sidebar widget – no inline rendering here */}
 
               {/* ── Comment Section ── */}
               {blog.allowComments && (
@@ -348,7 +382,7 @@ export function BlogDetail() {
                               </div>
                               <div>
                                 <h4 className="text-xs font-black text-[#0f172a] uppercase tracking-wider">{c.name || "Anonymous"}</h4>
-                                <span className="text-[10px] font-bold text-gray-400">{new Date(c.created_at).toLocaleDateString()}</span>
+                                <span style={{fontFamily:"'Roboto',sans-serif"}} className="text-[10px] font-bold text-gray-500">{new Date(c.created_at).toLocaleDateString()}</span>
                               </div>
                            </div>
                            <p className="text-gray-600 text-sm italic">"{c.text}"</p>
@@ -359,7 +393,7 @@ export function BlogDetail() {
                 </div>
               )}
               
-              <Link to="/blogs" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-[#ff7a00] transition-colors mt-20">
+              <Link to="/blogs" style={{fontFamily:"'Roboto',sans-serif"}} className="inline-flex items-center gap-2 text-[11px] font-black uppercase tracking-[0.2em] text-gray-500 hover:text-[#ff7a00] transition-colors mt-20">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
                 Back to Blog
               </Link>
@@ -370,14 +404,14 @@ export function BlogDetail() {
           <div className="space-y-12">
             {/* 1. Categories */}
             <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-xl shadow-gray-200/20">
-              <h3 className="text-lg font-black text-[#0f172a] mb-6 uppercase tracking-tight flex items-center gap-2">
+              <h3 style={{fontFamily:"'Roboto',sans-serif"}} className="text-base font-black text-[#0f172a] mb-6 uppercase tracking-tight flex items-center gap-2">
                 <span className="w-1.5 h-6 bg-[#ff7a00] rounded-full"></span>
                 Categories
               </h3>
               <ul className="space-y-3">
                 {categories.map(c => (
                   <li key={c}>
-                    <Link to="/blogs" className="flex items-center justify-between group py-1 text-xs font-black uppercase tracking-widest text-gray-400 hover:text-[#ff7a00] transition-colors">
+                    <Link to="/blogs" style={{fontFamily:"'Roboto',sans-serif"}} className="flex items-center justify-between group py-2 text-xs font-bold uppercase tracking-widest text-gray-600 hover:text-[#ff7a00] transition-colors border-b border-gray-50 last:border-0">
                       <span>{c}</span>
                       <svg className="w-3 h-3 translate-x-0 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M9 5l7 7-7 7" /></svg>
                     </Link>
@@ -388,13 +422,13 @@ export function BlogDetail() {
 
             {/* 2. Popular Tags */}
             <div className="bg-white rounded-[2rem] p-8 border border-gray-100 shadow-xl shadow-gray-200/20">
-              <h3 className="text-lg font-black text-[#0f172a] mb-6 uppercase tracking-tight flex items-center gap-2">
+              <h3 style={{fontFamily:"'Roboto',sans-serif"}} className="text-base font-black text-[#0f172a] mb-6 uppercase tracking-tight flex items-center gap-2">
                 <span className="w-1.5 h-6 bg-blue-500 rounded-full"></span>
                 Popular Tags
               </h3>
               <div className="flex flex-wrap gap-2">
                 {allTags.slice(0, 10).map(t => (
-                  <span key={t} className="text-[10px] font-black uppercase tracking-widest bg-gray-50 text-gray-400 px-3 py-2 rounded-lg hover:bg-[#0f172a] hover:text-white transition-all cursor-pointer border border-gray-100">
+                  <span key={t} style={{fontFamily:"'Roboto',sans-serif"}} className="text-[10px] font-bold uppercase tracking-widest bg-gray-50 text-gray-600 px-3 py-2 rounded-lg hover:bg-[#0f172a] hover:text-white transition-all cursor-pointer border border-gray-100">
                     #{t}
                   </span>
                 ))}
@@ -415,20 +449,24 @@ export function BlogDetail() {
                     </div>
                     <div>
                       <h4 className="text-[11px] font-black text-[#0f172a] line-clamp-2 group-hover:text-[#ff7a00] transition-colors leading-tight mb-1 uppercase tracking-tight">{b.title}</h4>
-                      <span className="text-[9px] font-black text-gray-300 uppercase">{new Date(b.created_at).toLocaleDateString()}</span>
+                      <span style={{fontFamily:"'Roboto',sans-serif"}} className="text-[9px] font-bold text-gray-400 uppercase">{new Date(b.created_at).toLocaleDateString()}</span>
                     </div>
                   </Link>
                 ))}
               </div>
             </div>
 
-            {/* Sidebar CTA */}
+            {/* Sidebar CTA – driven by Admin Sidebar CTA Builder */}
             <div className="bg-[#0f172a] rounded-[2rem] p-10 text-center relative overflow-hidden group shadow-2xl shadow-[#0f172a]/20">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff7a00] rounded-full blur-3xl opacity-10 -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700"></div>
-              <h4 className="text-xl font-black text-white mb-4 relative z-10 leading-tight">Expert Scaffolding Solutions</h4>
-              <p className="text-gray-400 text-xs mb-8 relative z-10 leading-relaxed">Providing safety and stability for projects of any scale.</p>
-              <Link to="/contact" className="inline-block px-10 py-4 bg-[#ff7a00] text-white font-black uppercase tracking-widest text-[10px] rounded-2xl hover:bg-white hover:text-[#0f172a] transition-all relative z-10 shadow-lg shadow-[#ff7a00]/20">
-                Get Free Quote
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff7a00] rounded-full blur-3xl opacity-15 -mr-16 -mt-16 transition-transform group-hover:scale-150 duration-700"></div>
+              <div className="absolute bottom-0 left-0 w-20 h-20 bg-blue-500 rounded-full blur-3xl opacity-5 -ml-10 -mb-10"></div>
+              <h4 className="text-xl font-black text-white mb-3 relative z-10 leading-tight">{ctaData.heading}</h4>
+              <p className="text-gray-400 text-xs mb-8 relative z-10 leading-relaxed">{ctaData.subtext}</p>
+              <Link
+                to={ctaData.btnLink || "/contact"}
+                className="inline-block px-10 py-4 bg-[#ff7a00] text-white font-black uppercase tracking-widest text-[10px] rounded-2xl hover:bg-white hover:text-[#0f172a] transition-all relative z-10 shadow-lg shadow-[#ff7a00]/20"
+              >
+                {ctaData.btnText}
               </Link>
             </div>
           </div>

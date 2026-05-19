@@ -279,6 +279,23 @@ export async function deleteBlogger(id) {
 }
 
 // ── Comments ──────────────────────────────────────────────────
+// NOTE: isStatusColumnSupported is re-checked on every getAllComments() call
+// so it always reflects the real DB schema state.
+let isStatusColumnSupported = true;
+
+/**
+ * Normalizes a raw comment row from Supabase so that `status` is
+ * always the string 'pending' or 'approved' — never null/undefined.
+ * This prevents the UI filter `status !== 'approved'` from treating
+ * null-status rows as pending after they have been approved.
+ */
+function normalizeComment(c) {
+  return {
+    ...c,
+    status: c.status === 'approved' ? 'approved' : 'pending',
+  };
+}
+
 export async function getCommentsForBlog(blogId) {
   try {
     const { data, error } = await supabase
@@ -286,9 +303,9 @@ export async function getCommentsForBlog(blogId) {
       .select('*')
       .eq('blog_id', blogId)
       .order('created_at', { ascending: true });
-    
+
     if (error) throw error;
-    return data || [];
+    return (data || []).map(normalizeComment);
   } catch (err) {
     console.error(`Error fetching comments for blog ${blogId}:`, err);
     return [];
@@ -297,29 +314,20 @@ export async function getCommentsForBlog(blogId) {
 
 export async function getApprovedCommentsForBlog(blogId) {
   try {
-    // Attempt to query comments filtering by status = 'approved'
     const { data, error } = await supabase
       .from('comments')
       .select('*')
       .eq('blog_id', blogId)
-      .eq('status', 'approved')
       .order('created_at', { ascending: false });
-    
-    if (error) {
-      // Gracefully catch database error code 42703 ("column status does not exist")
-      if (error.code === '42703') {
-        console.warn("Supabase Info: 'status' column is missing in comments table. Please run SQL migration. Falling back to fetching all comments.");
-        const { data: allData, error: allError } = await supabase
-          .from('comments')
-          .select('*')
-          .eq('blog_id', blogId)
-          .order('created_at', { ascending: false });
-        if (allError) throw allError;
-        return allData || [];
-      }
-      throw error;
+
+    if (error) throw error;
+
+    if (data && data.length > 0) {
+      isStatusColumnSupported = 'status' in data[0];
     }
-    return data || [];
+
+    // Normalize then filter — only truly approved comments reach live blogs.
+    return (data || []).map(normalizeComment).filter(c => c.status === 'approved');
   } catch (err) {
     console.error(`Error fetching approved comments for blog ${blogId}:`, err);
     return [];
@@ -332,41 +340,67 @@ export async function getAllComments() {
       .from('comments')
       .select('*, blogs(title)')
       .order('created_at', { ascending: false });
-    
+
     if (error) {
-      if (error.code === '42703') {
-        console.warn("Supabase Info: 'status' column is missing in comments table. Please run SQL migration. Falling back to simple fetch.");
+      if (error.code === '42703' || error.code === 'PGRST204') {
+        // 'status' column is missing — fall back to a plain select.
+        console.warn("Supabase Info: 'status' column is missing in comments table. Please add it via SQL migration.");
+        isStatusColumnSupported = false;
         const { data: allData, error: allError } = await supabase
           .from('comments')
           .select('*, blogs(title)')
           .order('created_at', { ascending: false });
         if (allError) throw allError;
-        // Mock status as 'pending' for the admin to view/moderate locally
-        return (allData || []).map(c => ({ ...c, status: c.status || 'pending' }));
+        // Without a real status column every comment defaults to 'pending'.
+        // Do NOT override a real status value if it somehow exists.
+        return (allData || []).map(c => ({ ...c, status: c.status === 'approved' ? 'approved' : 'pending' }));
       }
       throw error;
     }
-    return data || [];
+
+    if (data && data.length > 0) {
+      isStatusColumnSupported = 'status' in data[0];
+    }
+
+    // Always normalize so the UI receives consistent status strings.
+    return (data || []).map(normalizeComment);
   } catch (err) {
     console.error("Error fetching all comments:", err);
     throw err;
   }
 }
 
+/**
+ * Persists a status change to Supabase.
+ * Returns true on success.
+ * Throws on real DB errors so the caller can show an error toast.
+ * Throws (with a descriptive message) when the status column is missing
+ * so optimistic UI updates are NOT applied when the write cannot persist.
+ */
 export async function updateCommentStatus(id, status) {
+  if (!isStatusColumnSupported) {
+    throw new Error(
+      "Cannot persist comment status: the 'status' column is missing from the comments table. " +
+      "Please run the SQL migration: ALTER TABLE comments ADD COLUMN status TEXT DEFAULT 'pending';"
+    );
+  }
   try {
     const { error } = await supabase
       .from('comments')
       .update({ status })
       .eq('id', id);
-    
+
     if (error) {
-      if (error.code === '42703') {
-        console.warn("Supabase Info: cannot update comment status because comments.status column is missing.");
-        return;
+      if (error.code === '42703' || error.code === 'PGRST204') {
+        isStatusColumnSupported = false;
+        throw new Error(
+          "Cannot persist comment status: the 'status' column is missing from the comments table. " +
+          "Please run: ALTER TABLE comments ADD COLUMN status TEXT DEFAULT 'pending';"
+        );
       }
       throw error;
     }
+    return true;
   } catch (err) {
     console.error(`Error updating comment ${id} status to ${status}:`, err);
     throw err;
@@ -383,7 +417,7 @@ export async function saveComment(comment) {
     };
     
     // Add status if the database schema supports it
-    if (comment.status) {
+    if (isStatusColumnSupported && comment.status) {
       dbComment.status = comment.status;
     }
     
@@ -393,9 +427,10 @@ export async function saveComment(comment) {
       .select();
     
     if (error) {
-      // Gracefully catch database error code 42703 ("column status does not exist")
-      if (error.code === '42703' && dbComment.status) {
+      // Gracefully catch database error code 42703 ("column status does not exist") or PGRST204
+      if ((error.code === '42703' || error.code === 'PGRST204') && dbComment.status) {
         console.warn("Supabase Info: 'status' column does not exist. Retrying save without status field.");
+        isStatusColumnSupported = false;
         delete dbComment.status;
         const { data: retryData, error: retryError } = await supabase
           .from('comments')

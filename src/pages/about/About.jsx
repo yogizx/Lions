@@ -8,6 +8,7 @@ import Client7 from "./images/Client7.png";
 import Client8 from "./images/Client8.png";
 import Founder from "./images/Founder.png";
 import AboutBanner from "./images/about.png";
+import LogoWatermark from "../../assets/images/logo.png.jpeg";
 
 function About() {
   const clients = [
@@ -22,7 +23,10 @@ function About() {
   ];
 
   return (
-    <div className="font-['Roboto'] bg-[#f6f8fc] overflow-x-hidden" style={{ fontFamily: 'Roboto, sans-serif' }}>
+    <div
+      className="font-['Roboto'] bg-[#f6f8fc] overflow-x-hidden"
+      style={{ fontFamily: "Roboto, sans-serif" }}
+    >
       {/* HERO */}
       <section className="relative min-h-[320px] md:min-h-[500px] overflow-hidden flex items-center justify-center">
         <img
@@ -30,20 +34,13 @@ function About() {
           alt=""
           className="absolute inset-0 w-full h-full object-cover brightness-105 contrast-110 saturate-125"
         />
-
         <div className="absolute inset-0 bg-[#081b3a]/55"></div>
 
-         <div className="relative z-10 h-full flex items-center justify-center">
-          <div className="text-center px-6">
-            
-
-            <h1 className="relative text-white text-[46px] md:text-[64px] font-black leading-tight">
-              About
-            </h1>
-          </div>
+        <div className="relative z-10 text-center px-6">
+          <h1 className="text-white text-[46px] md:text-[64px] font-black leading-tight">
+            About
+          </h1>
         </div>
-
-        
       </section>
 
       {/* COMPANY INTRO */}
@@ -55,7 +52,7 @@ function About() {
 
               <img
                 src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=90&w=1600&auto=format&fit=crop"
-                className="w-full h-[560px] object-cover rounded-[30px]"
+                className="w-full h-[360px] md:h-[560px] object-cover rounded-[30px]"
                 alt="Construction"
               />
 
@@ -67,11 +64,11 @@ function About() {
           </div>
 
           <div className="lg:col-span-7">
-           <p className="text-[#ff7a00] uppercase tracking-[4px] font-semibold mb-5">
+            <p className="text-[#ff7a00] uppercase tracking-[4px] font-semibold mb-5">
               Get To Know Lions
             </p>
 
-            <h2 className="text-[#081b3a] text-[42px] md:text-[38px] font-black leading-tight">
+            <h2 className="text-[#081b3a] text-[34px] md:text-[38px] font-black leading-tight">
               The Best Industry & Factory Business
             </h2>
 
@@ -86,10 +83,7 @@ function About() {
               We are growing together with our customers by providing the
               competitive services in a sustainable market. We satisfy our
               customers’ needs and fulfil their requirements by ensuring that we
-              complete our projects safely, on time, within budget. Our aim is to
-              achieve the highest standard of customer satisfaction possible, by
-              maintaining a continuous partnership with our customers and based on
-              our competence and trust.
+              complete our projects safely, on time, within budget.
             </p>
 
             <button className="mt-10 bg-[#081b3a] hover:bg-[#12305f] duration-300 text-white px-8 py-4 rounded-full font-semibold">
@@ -100,97 +94,53 @@ function About() {
       </section>
 
       {/* MISSION VISION STRATEGY */}
-   <section className="py-24 bg-[#081b3a] relative overflow-hidden">
-  <div className="absolute left-[-150px] top-[-150px] w-[400px] h-[400px] bg-[#ff7a00]/20 rounded-full blur-[90px]" />
+      <section className="py-16 md:py-24 bg-[#081b3a] relative overflow-hidden">
+        <div className="absolute left-[-150px] top-[-150px] w-[400px] h-[400px] bg-[#ff7a00]/20 rounded-full blur-[90px]" />
 
-  <div className="max-w-[1400px] mx-auto px-6 lg:px-16 relative">
-    <div className="text-center mb-16">
-      <p className="text-[#ff7a00] uppercase tracking-[8px] font-black mb-4">
-        Our Direction
-      </p>
-    </div>
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-16 relative">
+          <div className="text-center mb-12 md:mb-16">
+            <p className="text-[#ff7a00] uppercase tracking-[5px] md:tracking-[8px] font-black mb-4">
+              Our Direction
+            </p>
+          </div>
 
-    <div className="grid lg:grid-cols-3 gap-10">
-      
-      {/* CARD 1 */}
-      <div className="bg-[#f3f3f3] rounded-[36px] p-12 min-h-[420px] shadow-2xl flex flex-col justify-start">
-        <span
-          className="text-[#ff7a00] font-black"
-          style={{
-            fontSize: "80px",
-            lineHeight: "75px",
-          }}
-        >
-          01
-        </span>
+          <div className="grid gap-8 md:grid-cols-3 md:gap-8 xl:gap-12 justify-items-center">
+            <DirectionCard
+              title="Mission"
+              text="Thrive to Exceed Our Customers Expectations & Satisfactions by Our Products & Services."
+            />
 
-        <h3 className="text-[#081b3a] text-[45px] font-black mt-10 leading-none">
-          Mission
-        </h3>
+            <DirectionCard
+              title="Vision"
+              text="To Be Local Leader in Providing Quality & Excellent Services to Various Industries."
+              featured
+            />
 
-        <p className="text-[#5b6475] text-[22px] leading-[42px] mt-10 font-medium">
-          Thrive to Exceed Our Customers Expectations & Satisfactions by Our
-          Products & Services.
-        </p>
-      </div>
-
-      {/* CARD 2 */}
-      <div className="bg-[#ff7a00] rounded-[36px] p-12 min-h-[420px] shadow-2xl flex flex-col justify-start lg:translate-y-10">
-        <span
-          className="text-white/35 font-black"
-          style={{
-            fontSize: "80px",
-            lineHeight: "75px",
-          }}
-        >
-          02
-        </span>
-
-        <h3 className="text-white text-[45px] font-black mt-10 leading-none">
-          Vision
-        </h3>
-
-        <p className="text-white/95 text-[22px] leading-[42px] mt-10 font-medium">
-          To Be Local Leader in Providing Quality & Excellent Services to
-          Various Industries.
-        </p>
-      </div>
-
-      {/* CARD 3 */}
-      <div className="bg-[#f3f3f3] rounded-[36px] p-12 min-h-[420px] shadow-2xl flex flex-col justify-start">
-        <span
-          className="text-[#ff7a00] font-black"
-          style={{
-            fontSize: "80px",
-            lineHeight: "75px",
-          }}
-        >
-          03
-        </span>
-
-        <h3 className="text-[#081b3a] text-[45px] font-black mt-10 leading-none">
-          Strategy
-        </h3>
-
-        <p className="text-[#5b6475] text-[22px] leading-[42px] mt-10 font-medium">
-          We are looking forward to capitalize on growth opportunities in the
-          market to expand our business and customer base.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
+            <DirectionCard
+              title="Strategy"
+              text="We are looking forward to capitalize on growth opportunities in the market to expand our business and customer base."
+            />
+          </div>
+        </div>
+      </section>
 
       {/* FOUNDER */}
-      <section className="py-24 bg-white">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-16">
+      <section
+        className="relative py-24 bg-white overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.78)), url(${LogoWatermark})`,
+          backgroundPosition: "center center",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "min(1250px, 95vw) auto",
+        }}
+      >
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-16">
           <div className="text-center mb-16">
             <p className="text-[#ff7a00] uppercase tracking-[6px] font-bold mb-4">
               Leadership
             </p>
-            <h2 className="text-[#081b3a] text-[42px] md:text-[38px] font-black">
-             Founder of Lions Global Services ( Mr Anbuselvan )
+            <h2 className="text-[#081b3a] text-[32px] md:text-[38px] font-black">
+              Founder of Lions Global Services ( Mr Anbuselvan )
             </h2>
           </div>
 
@@ -206,9 +156,8 @@ function About() {
         </div>
       </section>
 
-
       {/* PROCESS */}
-      <section className="py-24 bg-[#081b3a]">
+       <section className="py-24 bg-[#081b3a]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-16">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -278,19 +227,19 @@ function About() {
 
             <div className="mt-16 bg-white rounded-[36px] p-6 md:p-10 shadow-lg relative">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 items-center">
-               {clients.map((client, index) => (
-  <div
-    key={index}
-    tabIndex={0}
-    className="group h-[110px] md:h-[130px] bg-white rounded-2xl border border-gray-100 flex items-center justify-center p-4 hover:shadow-lg active:shadow-lg focus:shadow-lg transition cursor-pointer"
-  >
-    <img
-      src={client}
-      alt={`Client ${index + 1}`}
-      className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 group-hover:scale-[1.05] group-active:grayscale-0 group-active:scale-[1.08] group-focus:grayscale-0 group-focus:scale-[1.08] transition duration-300"
-    />
-  </div>
-))}
+                {clients.map((client, index) => (
+                  <div
+                    key={index}
+                    tabIndex={0}
+                    className="group h-[110px] md:h-[130px] bg-white rounded-2xl border border-gray-100 flex items-center justify-center p-4 hover:shadow-lg active:shadow-lg focus:shadow-lg transition cursor-pointer"
+                  >
+                    <img
+                      src={client}
+                      alt={`Client ${index + 1}`}
+                      className="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 group-hover:scale-[1.05] group-active:grayscale-0 group-active:scale-[1.08] group-focus:grayscale-0 group-focus:scale-[1.08] transition duration-300"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -305,7 +254,7 @@ function About() {
               Trusted Quality
             </p>
 
-            <h2 className="text-white text-[42px] md:text-[40px] font-black">
+            <h2 className="text-white text-[36px] md:text-[40px] font-black">
               Certifications & Compliance
             </h2>
           </div>
@@ -314,38 +263,19 @@ function About() {
             <CertificationPoint
               no="01"
               title="Safety, Quality & Compliance"
-              text={
-                <>
-                  At Lions Global Services, our commitment to{" "}
-                  <strong className="font-bold text-[#081b3a]">safety, quality, and regulatory compliance</strong>{" "}
-                  is reinforced through recognized industry certifications and professionally qualified personnel.
-                </>
-              }
+              text="At Lions Global Services, our commitment to safety, quality, and regulatory compliance is reinforced through recognized industry certifications and professionally qualified personnel."
             />
 
             <CertificationPoint
               no="02"
               title="Certified Technical Personnel"
-              text={
-                <>
-                  Our team includes{" "}
-                  <strong className="font-bold text-[#081b3a]">CIDB Malaysia registered construction personnel</strong>{" "}
-                  and certified scaffold inspection professionals trained in{" "}
-                  <strong className="font-bold text-[#081b3a]">basic, intermediate, and advanced inspection standards</strong>.
-                  These credentials reflect our capability to deliver scaffolding and engineering solutions with a strong focus on workplace safety, operational excellence, and industry compliance.
-                </>
-              }
+              text="Our team includes CIDB Malaysia registered construction personnel and certified scaffold inspection professionals trained in basic, intermediate, and advanced inspection standards."
             />
 
             <CertificationPoint
               no="03"
               title="Professional Project Execution"
-              text={
-                <>
-                  By maintaining{" "}
-                  <strong className="font-bold text-[#081b3a]">certified expertise</strong>, we ensure every project is executed with professionalism, reliability, and adherence to established safety standards.
-                </>
-              }
+              text="By maintaining certified expertise, we ensure every project is executed with professionalism, reliability, and adherence to established safety standards."
             />
           </div>
         </div>
@@ -364,6 +294,57 @@ function ProcessCard({ no, title, text }) {
       <div>
         <h3 className="text-white text-[23px] font-bold">{title}</h3>
         <p className="text-white/75 mt-2 leading-[28px]">{text}</p>
+      </div>
+    </div>
+  );
+}
+
+function DirectionCard({ title, text, featured = false }) {
+  return (
+    <div
+      tabIndex={0}
+      className={`group relative aspect-square w-[250px] sm:w-[300px] md:w-full md:max-w-[320px] lg:max-w-[340px] xl:max-w-[360px] rounded-full outline-none [perspective:1000px] ${
+        featured ? "md:translate-y-10" : ""
+      }`}
+    >
+      <div
+        className={`absolute inset-0 rounded-full transition-all duration-500 ease-out ${
+          featured
+            ? "shadow-[0_0_0_10px_rgba(255,255,255,0.14),0_18px_45px_rgba(0,0,0,0.25)] md:shadow-[0_0_0_18px_rgba(255,255,255,0.14),0_24px_60px_rgba(0,0,0,0.3)]"
+            : "shadow-[0_0_0_10px_rgba(255,122,0,0.18),0_18px_45px_rgba(0,0,0,0.25)] md:shadow-[0_0_0_18px_rgba(255,122,0,0.18),0_24px_60px_rgba(0,0,0,0.3)]"
+        }`}
+      />
+
+      <div className="absolute inset-0 rounded-full transition-transform duration-700 ease-in-out [transform-style:preserve-3d] group-hover:[transform:rotate3d(0,1,0,-180deg)] group-focus:[transform:rotate3d(0,1,0,-180deg)]">
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full p-6 md:p-8 text-center [backface-visibility:hidden] ${
+            featured
+              ? "bg-[#ff7a00] text-white"
+              : "bg-[#f3f3f3] text-[#081b3a]"
+          }`}
+        >
+          <h3 className="relative text-[30px] sm:text-[34px] md:text-[32px] lg:text-[40px] xl:text-[48px] font-black leading-none">
+            {title}
+          </h3>
+        </div>
+
+        <div
+          className={`absolute inset-0 flex flex-col items-center justify-center overflow-hidden rounded-full p-6 md:p-8 text-center text-white [backface-visibility:hidden] [transform:rotateY(180deg)] ${
+            featured ? "bg-[#081b3a]" : "bg-[#ff7a00]"
+          }`}
+        >
+          <span className="absolute inset-4 rounded-full border border-white/25" />
+
+          <h3 className="relative text-[21px] sm:text-[23px] md:text-[22px] lg:text-[27px] xl:text-[31px] font-black leading-none">
+            {title}
+          </h3>
+
+          <span className="relative my-3 md:my-5 h-[2px] w-14 md:w-16 rounded-full bg-white/60" />
+
+          <p className="relative max-w-[200px] sm:max-w-[230px] md:max-w-[260px] text-[12px] sm:text-[13px] md:text-[13px] lg:text-[15px] xl:text-[17px] font-semibold leading-[20px] sm:leading-[23px] md:leading-[23px] lg:leading-[27px] xl:leading-[30px]">
+            {text}
+          </p>
+        </div>
       </div>
     </div>
   );

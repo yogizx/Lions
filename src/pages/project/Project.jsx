@@ -1,4 +1,7 @@
+import { useMemo, useRef, useState } from "react";
 import ProjectBanner from "./images/project.png";
+
+const ITEMS_PER_PAGE = 8;
 
 const projects = [
   [1, "2014", "KENCANA HL SDN BHD", "LUMUT, PERAK", "TO CARRY OUT SCAFFOLDING/INSULATION WORKS FOR EPCIC OF EVA PROJECT", "40,000", "COMPLETED"],
@@ -49,6 +52,25 @@ const projects = [
 ];
 
 function Project() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const tableCardRef = useRef(null);
+  const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+
+  const paginatedProjects = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    return projects.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+  }, [currentPage]);
+
+  const handlePageChange = (page) => {
+    if (page < 1 || page > totalPages || page === currentPage) return;
+
+    setCurrentPage(page);
+    tableCardRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
     <div className="font-['Roboto'] bg-[#f5f7fb] overflow-x-hidden" style={{ fontFamily: 'Roboto, sans-serif' }}>
       <section className="relative min-h-[320px] md:min-h-[500px] overflow-hidden flex items-center justify-center">
@@ -88,7 +110,7 @@ function Project() {
             </p>
           </div>
 
-          <div className="bg-white rounded-[32px] shadow-2xl overflow-hidden border border-gray-200">
+          <div ref={tableCardRef} className="bg-white rounded-[32px] shadow-2xl overflow-hidden border border-gray-200">
             <div className="overflow-x-auto">
               <table className="w-full min-w-[1300px] border-collapse">
                 <thead>
@@ -104,7 +126,7 @@ function Project() {
                 </thead>
 
                 <tbody className="text-[14px] text-[#374151]">
-                  {projects.map((row) => (
+                  {paginatedProjects.map((row) => (
                     <tr
                       key={row[0]}
                       className="hover:bg-[#fff7ed] transition duration-200"
@@ -120,12 +142,54 @@ function Project() {
                       </td>
                     </tr>
                   ))}
-                  {/* Empty space inside table after row 46 */}
-                  <tr className="h-20">
-                    <td colSpan="7" className="border-none"></td>
-                  </tr>
                 </tbody>
               </table>
+            </div>
+
+            <div className="flex flex-col gap-4 border-t border-gray-200 bg-white px-5 py-5 sm:flex-row sm:items-center sm:justify-between lg:px-8">
+              <p className="text-center text-[14px] font-semibold text-[#6b7280] sm:text-left">
+                Showing {(currentPage - 1) * ITEMS_PER_PAGE + 1}-
+                {Math.min(currentPage * ITEMS_PER_PAGE, projects.length)} of {projects.length} projects
+              </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="inline-flex h-10 items-center justify-center rounded-full border border-gray-200 px-4 text-[14px] font-bold text-[#081b3a] transition duration-200 hover:border-[#ff7a00] hover:bg-[#fff7ed] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-gray-200 disabled:hover:bg-white"
+                  aria-label="Go to previous page"
+                >
+                  &lt; Prev
+                </button>
+
+                {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                  <button
+                    type="button"
+                    key={page}
+                    onClick={() => handlePageChange(page)}
+                    className={`inline-flex h-10 w-10 items-center justify-center rounded-full border text-[14px] font-black transition duration-200 ${
+                      currentPage === page
+                        ? "border-[#ff7a00] bg-[#ff7a00] text-white shadow-lg shadow-orange-200"
+                        : "border-gray-200 bg-white text-[#081b3a] hover:border-[#ff7a00] hover:bg-[#fff7ed]"
+                    }`}
+                    aria-current={currentPage === page ? "page" : undefined}
+                    aria-label={`Go to page ${page}`}
+                  >
+                    {page}
+                  </button>
+                ))}
+
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="inline-flex h-10 items-center justify-center rounded-full border border-gray-200 px-4 text-[14px] font-bold text-[#081b3a] transition duration-200 hover:border-[#ff7a00] hover:bg-[#fff7ed] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-gray-200 disabled:hover:bg-white"
+                  aria-label="Go to next page"
+                >
+                  Next &gt;
+                </button>
+              </div>
             </div>
           </div>
         </div>

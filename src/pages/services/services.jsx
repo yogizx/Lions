@@ -9,6 +9,7 @@ import {
   Clock3,
   Award,
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import ServicesBanner from "./images/services.png";
 import ScaffoldingImage from "./images/scaffolding.png";
 import InsulationImage from "./images/insulation.png";
@@ -63,6 +64,7 @@ function Services() {
               icon={<Building2 />}
               title="Scaffolding"
               text="Scaffolding is a temporary structure used to provide safe and efficient access for workers to perform tasks at heights during construction or maintenance projects."
+              path="/services/scaffolding-works"
             />
 
             <ServiceCardDark
@@ -70,6 +72,7 @@ function Services() {
               icon={<Wrench />}
               title="Insulation"
               text="Insulation is essential for controlling heat transfer, improving energy efficiency, and creating comfortable industrial and commercial environments."
+              path="/services/insulation-works"
             />
 
             <ServiceCard
@@ -77,6 +80,7 @@ function Services() {
               icon={<Shield />}
               title="Safety Catch Net"
               text="Safety catch nets are designed to prevent falls and create secure working conditions in high-rise construction and industrial environments."
+              path="/services/safety-net"
             />
 
             <ServiceCardDark
@@ -84,6 +88,7 @@ function Services() {
               icon={<Users />}
               title="Supply Of Man Power"
               text="We provide experienced and skilled manpower support for industrial, construction, maintenance, and engineering projects with flexible workforce solutions."
+              path="/services/supply-of-man-power"
             />
 
             <ServiceCard
@@ -91,6 +96,7 @@ function Services() {
               icon={<Hammer />}
               title="Building Construction Works"
               text="We handle industrial and commercial construction works with quality materials, proper planning, structural safety, and modern construction practices."
+              path="/services/building-construction-works"
             />
 
             <ServiceCardDark
@@ -98,6 +104,7 @@ function Services() {
               icon={<Briefcase />}
               title="Security Supply"
               text="Security supply services include professional guards, monitoring support, access control, and industrial site protection for safe operations."
+              path="/services/security-supply"
             />
           </div>
         </div>
@@ -149,11 +156,11 @@ function Services() {
   );
 }
 
-function ServiceCard({ image, icon, title, text }) {
+function ServiceCard({ image, icon, title, text, path }) {
   return (
-    <div className="group bg-white rounded-[36px] overflow-hidden shadow-2xl hover:-translate-y-2 duration-300">
-      <div className="grid md:grid-cols-2 min-h-[450px]">
-        <div className="overflow-hidden h-[512px] md:h-auto md:min-h-[512px]">
+    <Link to={path} className="group block bg-white rounded-[36px] overflow-hidden shadow-2xl hover:-translate-y-2 duration-300 no-underline">
+      <div className="grid md:grid-cols-2 md:min-h-[450px]">
+        <div className="overflow-hidden h-[280px] sm:h-[360px] md:h-auto md:min-h-[512px]">
   <img
     src={image}
     className="w-full h-full object-cover duration-500 group-hover:scale-110"
@@ -175,14 +182,14 @@ function ServiceCard({ image, icon, title, text }) {
           </p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
-function ServiceCardDark({ image, icon, title, text }) {
+function ServiceCardDark({ image, icon, title, text, path }) {
   return (
-    <div className="group bg-[#081b3a] rounded-[36px] overflow-hidden shadow-2xl hover:-translate-y-2 duration-300">
-      <div className="grid md:grid-cols-2 min-h-[450px]">
+    <Link to={path} className="group block bg-[#081b3a] rounded-[36px] overflow-hidden shadow-2xl hover:-translate-y-2 duration-300 no-underline">
+      <div className="grid md:grid-cols-2 md:min-h-[450px]">
         <div className="p-10 order-2 md:order-1 flex flex-col justify-center">
           <div className="w-[75px] h-[75px] rounded-[24px] bg-[#ff7a00] flex items-center justify-center mb-7 text-white">
             {icon}
@@ -197,7 +204,7 @@ function ServiceCardDark({ image, icon, title, text }) {
           </p>
         </div>
 
-       <div className="overflow-hidden order-1 md:order-2 h-[512px] md:h-auto md:min-h-[512px]">
+       <div className="overflow-hidden order-1 md:order-2 h-[280px] sm:h-[360px] md:h-auto md:min-h-[512px]">
   <img
     src={image}
     className="w-full h-full object-cover duration-500 group-hover:scale-110"
@@ -205,7 +212,7 @@ function ServiceCardDark({ image, icon, title, text }) {
   />
 </div>
       </div>
-    </div>
+    </Link>
   );
 }
 

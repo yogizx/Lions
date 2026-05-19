@@ -1,40 +1,63 @@
-import { useRef } from "react";
+import { useState } from "react";
 import emailjs from "@emailjs/browser";
 import { PhoneCall, MapPin } from "lucide-react";
 import ContactBanner from "./images/contact.png";
 
 function Contact() {
-  const formRef = useRef();
+  const [formData, setFormData] = useState({
+    user_name: "",
+    user_email: "",
+    user_phone: "",
+    service: "",
+    message: "",
+  });
 
- const sendEmail = (e) => {
-  e.preventDefault();
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  emailjs
-    .sendForm(
-      "service_k4o2f0k",
-      "template_6aqmtyr",
-      formRef.current,
-      "rOj0SI81v4KfxkduV"
-    )
-    .then(
-      (result) => {
-        console.log("SUCCESS:", result.text);
-        alert("Message sent successfully!");
-        formRef.current.reset();
-      },
-      (error) => {
-        console.log("EMAILJS ERROR:", error);
-        alert(error.text || "Something went wrong. Please try again.");
-      }
-    );
-};
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .send(
+        "service_wx1jai4",
+        "template_6aqmtyr",
+        {
+          user_name: formData.user_name,
+          user_email: formData.user_email,
+          user_phone: formData.user_phone,
+          service: formData.service,
+          message: formData.message,
+        },
+        "rOj0SI81v4KfxkduV"
+      )
+      .then(
+        () => {
+          alert("Message sent successfully!");
+          setFormData({
+            user_name: "",
+            user_email: "",
+            user_phone: "",
+            service: "",
+            message: "",
+          });
+        },
+        (error) => {
+          console.log("EMAILJS ERROR:", error);
+          alert(error.text || "Something went wrong. Please try again.");
+        }
+      );
+  };
 
   return (
     <div
       className="font-['Roboto'] bg-[#f5f7fb] overflow-x-hidden"
       style={{ fontFamily: "Roboto, sans-serif" }}
     >
-      {/* Banner */}
       <section className="relative min-h-[320px] md:min-h-[500px] overflow-hidden flex items-center justify-center">
         <img
           src={ContactBanner}
@@ -53,7 +76,6 @@ function Contact() {
         </div>
       </section>
 
-      {/* Contact Section */}
       <section className="py-24 bg-[#f5f7fb]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-16">
           <div className="text-center mb-16">
@@ -66,15 +88,14 @@ function Contact() {
             </h2>
           </div>
 
-          {/* Contact Cards */}
           <div className="grid lg:grid-cols-2 gap-8 mb-20">
             <ContactCard
               icon={<MapPin />}
               title="Address - Head Quarters"
               text={
                 <>
-                  No.33 , Tingkat Satu, Jalan Kelang Lama Square 1,
-                  Kelang Lama Square, 09000 Kulim, Kedah.
+                  No.33 , Tingkat Satu, Jalan Kelang Lama Square 1, Kelang Lama
+                  Square, 09000 Kulim, Kedah.
                   <br />
                   info@lionsglobalservices.com
                 </>
@@ -86,8 +107,7 @@ function Contact() {
               title="Contact"
               text={
                 <>
-                  Monday-Thursday (8:00am - 6:00pm) | Friday
-                  (8:00am - 5:00pm)
+                  Monday-Thursday (8:00am - 6:00pm) | Friday (8:00am - 5:00pm)
                   <br />
                   Saturday & Sunday Closed
                   <br />
@@ -101,7 +121,6 @@ function Contact() {
             />
           </div>
 
-          {/* Form Section */}
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="text-[#ff7a00] uppercase tracking-[5px] font-bold mb-4">
@@ -113,9 +132,9 @@ function Contact() {
               </h2>
 
               <p className="text-[#6b7280] leading-[34px] text-[17px]">
-                Contact our experienced industrial and construction
-                team for scaffolding works, insulation services,
-                manpower supply, safety net installation, and more.
+                Contact our experienced industrial and construction team for
+                scaffolding works, insulation services, manpower supply, safety
+                net installation, and more.
               </p>
 
               <div className="grid sm:grid-cols-2 gap-6 mt-12">
@@ -124,20 +143,17 @@ function Contact() {
               </div>
             </div>
 
-            {/* Contact Form */}
             <div className="bg-white rounded-[36px] shadow-2xl p-8 md:p-12">
               <h3 className="text-[#081b3a] text-[36px] font-black mb-8">
                 Request A Quote
               </h3>
 
-              <form
-                ref={formRef}
-                onSubmit={sendEmail}
-                className="space-y-6"
-              >
+              <form onSubmit={sendEmail} className="space-y-6">
                 <input
                   type="text"
                   name="user_name"
+                  value={formData.user_name}
+                  onChange={handleChange}
                   placeholder="Full Name"
                   required
                   className="w-full h-[65px] bg-[#f5f7fb] rounded-2xl px-6 text-[#081b3a] outline-none"
@@ -146,14 +162,18 @@ function Contact() {
                 <input
                   type="email"
                   name="user_email"
+                  value={formData.user_email}
+                  onChange={handleChange}
                   placeholder="Email Address"
                   required
                   className="w-full h-[65px] bg-[#f5f7fb] rounded-2xl px-6 text-[#081b3a] outline-none"
                 />
 
                 <input
-                  type="text"
+                  type="tel"
                   name="user_phone"
+                  value={formData.user_phone}
+                  onChange={handleChange}
                   placeholder="Phone Number"
                   required
                   className="w-full h-[65px] bg-[#f5f7fb] rounded-2xl px-6 text-[#081b3a] outline-none"
@@ -161,42 +181,31 @@ function Contact() {
 
                 <select
                   name="service"
+                  value={formData.service}
+                  onChange={handleChange}
                   required
-                  defaultValue=""
                   className="w-full h-[65px] bg-[#f5f7fb] rounded-2xl px-6 text-[#081b3a] outline-none"
                 >
                   <option value="" disabled>
                     Select Service
                   </option>
-
-                  <option value="Scaffolding Works">
-                    Scaffolding Works
-                  </option>
-
-                  <option value="Insulation Works">
-                    Insulation Works
-                  </option>
-
-                  <option value="Safety Net">
-                    Safety Net
-                  </option>
-
+                  <option value="Scaffolding Works">Scaffolding Works</option>
+                  <option value="Insulation Works">Insulation Works</option>
+                  <option value="Safety Net">Safety Net</option>
                   <option value="Building Construction">
                     Building Construction
                   </option>
-
                   <option value="Supply Of Man Power">
                     Supply Of Man Power
                   </option>
-
-                  <option value="Security Supply">
-                    Security Supply
-                  </option>
+                  <option value="Security Supply">Security Supply</option>
                 </select>
 
                 <textarea
                   rows="5"
                   name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   placeholder="Your Message"
                   required
                   className="w-full bg-[#f5f7fb] rounded-2xl px-6 py-5 text-[#081b3a] outline-none"
@@ -214,7 +223,6 @@ function Contact() {
         </div>
       </section>
 
-      {/* Google Map */}
       <section className="pb-24 bg-[#f5f7fb]">
         <div className="max-w-[1400px] mx-auto px-6 lg:px-16">
           <div className="rounded-[40px] overflow-hidden shadow-2xl h-[500px]">
@@ -238,13 +246,9 @@ function ContactCard({ icon, title, text }) {
         {icon}
       </div>
 
-      <h3 className="text-[#081b3a] text-[28px] font-black mb-4">
-        {title}
-      </h3>
+      <h3 className="text-[#081b3a] text-[28px] font-black mb-4">{title}</h3>
 
-      <p className="text-[#6b7280] leading-[32px]">
-        {text}
-      </p>
+      <p className="text-[#6b7280] leading-[32px]">{text}</p>
     </div>
   );
 }
@@ -252,13 +256,8 @@ function ContactCard({ icon, title, text }) {
 function StatCard({ number, text }) {
   return (
     <div className="bg-white rounded-[24px] p-8 shadow-lg">
-      <h3 className="text-[#ff7a00] text-[42px] font-black">
-        {number}
-      </h3>
-
-      <p className="text-[#081b3a] font-semibold mt-2">
-        {text}
-      </p>
+      <h3 className="text-[#ff7a00] text-[42px] font-black">{number}</h3>
+      <p className="text-[#081b3a] font-semibold mt-2">{text}</p>
     </div>
   );
 }
